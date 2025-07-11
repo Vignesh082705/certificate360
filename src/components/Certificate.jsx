@@ -74,7 +74,7 @@ const Certificate = () => {
           position: "relative",
         }}
       >
-        <div style={{ position: 'absolute', top: '415px', left: '520px', fontSize: '16px', color: 'gray',fontWeight:'bold',fontFamily: 'Calibri, sans-serif'}}>Course Summary:</div>
+        <div style={{ position: 'absolute', top: '415px', left: '528px', fontSize: '16px', color: 'gray',fontWeight:'bold',fontFamily: 'Calibri, sans-serif'}}>Course Summary:</div>
         <div
   style={{
     position: 'absolute',
