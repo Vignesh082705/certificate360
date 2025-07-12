@@ -74,7 +74,7 @@ const Certificate = () => {
           position: "relative",
         }}
       >
-        <div style={{ position: 'absolute', top: '415px', left: '528px', fontSize: '16px', color: 'gray',fontWeight:'bold',fontFamily: 'Calibri, sans-serif'}}>Course Summary:</div>
+        <div style={{ position: 'absolute', top: '415px', left: '525px', fontSize: '16px', color: 'gray',fontWeight:'bold',fontFamily: 'Calibri, sans-serif'}}>Course Summary:</div>
         <div
   style={{
     position: 'absolute',
@@ -108,7 +108,7 @@ const Certificate = () => {
             fontFamily: 'Calibri, sans-serif',
             fontWeight: 'normal',
             top: "358px",
-            left: "590px",
+            left: "580px",
             transform: "translateX(-50%)",
             width: "780px",
             textAlign: "center",
@@ -151,7 +151,7 @@ const Certificate = () => {
     ...baseStyle,
     position: "absolute",
     top: "440px",
-    left: "195px",
+    left: "193px",
     width: "780px",
     fontSize: "16px",
     lineHeight: "1.5",
