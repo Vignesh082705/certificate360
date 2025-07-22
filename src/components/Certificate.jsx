@@ -3,6 +3,8 @@ import html2pdf from "html2pdf.js";
 
 const Certificate = () => {
   const certRef = useRef();
+  const [photo, setPhoto] = useState(null);
+  const photoBoxRef = useRef(); // for upload box
 
   const [form, setForm] = useState({
     name: "",
@@ -94,6 +96,76 @@ const Certificate = () => {
 >
   CREDITS:
 </div>
+<div
+  ref={photoBoxRef}
+  style={{
+    position: "relative",
+    width: "105px",
+    height: "120px",
+    left:"900px",
+    top:"100px",
+    border: "1.4px solid gray",
+    overflow: "hidden",
+    marginBottom: "20px",
+    cursor: "pointer",
+  }}
+  onClick={() => document.getElementById("photo-upload").click()}
+>
+  {photo && (
+    <img
+      src={photo}
+      alt="Uploaded"
+      style={{
+        width: "100%",
+        height: "100%",
+        objectFit: "cover",
+        position: "absolute",
+        padding:"2px",
+        top: 0,
+        left: 0,
+        zIndex: 1,
+      }}
+    />
+  )}
+  <div
+    style={{
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      zIndex: 0,
+      color: "black",
+      borderRadius: "5px",
+      width:"100%",
+      textAlign:"center",
+      fontFamily: 'Calibri, sans-serif',
+      fontSize: "14px",
+      fontWeight: "bold",
+      opacity: photo ? 0.8 : 1,
+    }}
+  >
+    Add Photo
+  </div>
+
+  <input
+    id="photo-upload"
+    type="file"
+    accept="image/*"
+    onChange={(e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          setPhoto(reader.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    }}
+    style={{ display: "none" }}
+  />
+</div>
+
+
         {/* NAME */}
         <div
           contentEditable
