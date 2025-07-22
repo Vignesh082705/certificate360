@@ -76,7 +76,7 @@ const Certificate = () => {
           position: "relative",
         }}
       >
-        <div style={{ position: 'absolute', top: '415px', left: '525px', fontSize: '16px', color: 'gray',fontWeight:'bold',fontFamily: 'Calibri, sans-serif'}}>Course Summary:</div>
+        <div style={{ position: 'absolute', top: '405px', left: '525px', fontSize: '16px', color: 'gray',fontWeight:'bold',fontFamily: 'Calibri, sans-serif'}}>Course Summary:</div>
         <div
   style={{
     position: 'absolute',
@@ -179,7 +179,7 @@ const Certificate = () => {
             color: 'gray', // Firebrick red
             fontFamily: 'Calibri, sans-serif',
             fontWeight: 'normal',
-            top: "358px",
+            top: "350px",
             left: "580px",
             transform: "translateX(-50%)",
             width: "780px",
@@ -222,7 +222,7 @@ const Certificate = () => {
   style={{
     ...baseStyle,
     position: "absolute",
-    top: "440px",
+    top: "430px",
     left: "100px",
     width: "950px",
     fontSize: "16px",
