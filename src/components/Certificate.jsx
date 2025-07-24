@@ -133,9 +133,9 @@ const Certificate = () => {
   style={{
     position: "absolute",
     top: "580px",
-    left: "980px",
-    width: "80px",
-    height: "80px",
+    left: "900px",
+    width: "100px",
+    height: "100px",
   }}
 />
 
@@ -266,8 +266,8 @@ const Certificate = () => {
     ...baseStyle,
     position: "absolute",
     top: "430px",
-    left: "100px",
-    width: "950px",
+    left: "130px",
+    width: "920px",
     fontSize: "16px",
     lineHeight: "1.5",
     minHeight: "60px",
@@ -353,7 +353,7 @@ const Certificate = () => {
     style={{
       width: "100px",
       position: "absolute",
-      bottom: "35px",
+      bottom: "33px",
       right: "95px",
       zIndex: 1,
     }}
