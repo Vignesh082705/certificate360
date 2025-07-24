@@ -1,9 +1,16 @@
 import React, { useState, useRef } from "react";
 import html2pdf from "html2pdf.js";
+import QRCode from "qrcode"; // NEW (instead of 'qrcode.react')
+import { useEffect } from "react"; 
+import { db } from '../firebase';
+import { ref, set } from 'firebase/database';
+
 
 const Certificate = () => {
   const certRef = useRef();
   const [photo, setPhoto] = useState(null);
+  const certificateId = Date.now().toString(36); // short unique ID
+  const qrCanvasRef = useRef();
   const photoBoxRef = useRef(); // for upload box
 
   const [form, setForm] = useState({
@@ -15,30 +22,59 @@ const Certificate = () => {
     date: "",
     mode: "",
   });
+  
+  useEffect(() => {
+    const url = `https://certificate360compliance.vercel.app/verify/${certificateId}`;
+    if (qrCanvasRef.current) {
+      QRCode.toCanvas(qrCanvasRef.current, url, { width: 80 }, function (error) {
+        if (error) console.error("QR Error:", error);
+      });
+    }
+  }, [certificateId]); // ✅ Correct dependency
+  
 
-  const handleDownload = () => {
-    const element = certRef.current;
-    const opt = {
-      margin: 0,
-      filename: `${(form.name || "certificate")
-        .toUpperCase()
-        .replace(/[\\/:*?"<>|]/g, "")}.pdf`,
-      image: { type: "jpeg", quality: 1 },
-      html2canvas: {
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        logging: false,
-      },
-      jsPDF: {
-        unit: "pt",
-        format: "a4",
-        orientation: "landscape",
-      },
-      pagebreak: { mode: ["avoid-all"] },
+  const handleDownload = async () => {
+  
+    const certData = {
+      name: form.name,
+      course: form.course,
+      summary: form.summary,
+      hours: form.hours,
+      date: form.date,
+      mode: form.mode,
     };
-    html2pdf().set(opt).from(element).save();
+  
+    try {
+      await set(ref(db, 'certificates/' + certificateId), certData);
+      console.log("✅ Certificate data saved to Firebase.");
+  
+      // After saving → download certificate
+      const element = certRef.current;
+      const opt = {
+        margin: 0,
+        filename: `${(form.name || "certificate")
+          .toUpperCase()
+          .replace(/[\\/:*?"<>|]/g, "")}.pdf`,
+        image: { type: "jpeg", quality: 1 },
+        html2canvas: {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          logging: false,
+        },
+        jsPDF: {
+          unit: "pt",
+          format: "a4",
+          orientation: "landscape",
+        },
+        pagebreak: { mode: ["avoid-all"] },
+      };
+      html2pdf().set(opt).from(element).save();
+    } catch (error) {
+      console.error("❌ Failed to store certificate:", error);
+    }
   };
+  
 
   const handleFocus = (e, field, placeholder) => {
     if (!form[field]) e.currentTarget.textContent = "";
@@ -96,6 +132,17 @@ const Certificate = () => {
 >
   CREDITS:
 </div>
+<canvas
+  ref={qrCanvasRef}
+  style={{
+    position: "absolute",
+    top: "580px",
+    left: "980px",
+    width: "80px",
+    height: "80px",
+  }}
+/>
+
 <div
   ref={photoBoxRef}
   style={{
