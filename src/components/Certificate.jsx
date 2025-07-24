@@ -9,7 +9,8 @@ import { ref, set } from 'firebase/database';
 const Certificate = () => {
   const certRef = useRef();
   const [photo, setPhoto] = useState(null);
-  const certificateId = Date.now().toString(36); // short unique ID
+  const certificateIdRef = useRef(Date.now().toString(36));
+  const certificateId = certificateIdRef.current;  
   const qrCanvasRef = useRef();
   const photoBoxRef = useRef(); // for upload box
 
@@ -17,10 +18,7 @@ const Certificate = () => {
     name: "",
     course: "",
     summary: "",
-    certNo: "",
-    hours: "",
     date: "",
-    mode: "",
   });
   
   useEffect(() => {
@@ -39,9 +37,7 @@ const Certificate = () => {
       name: form.name,
       course: form.course,
       summary: form.summary,
-      hours: form.hours,
       date: form.date,
-      mode: form.mode,
     };
   
     try {
