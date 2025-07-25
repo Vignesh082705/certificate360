@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { getAuth, signInWithEmailAndPassword, setPersistence, browserLocalPersistence } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import logo from '../../public/logo.jpg';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -28,7 +29,15 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div>
+      <div className="flex justify-center mt-15 mb-15">
+        <img 
+          src={logo} 
+          alt="Compliance360 Logo" 
+          className="w-40"
+        />
+      </div>
+    <div className="flex items-center justify-center bg-gray-100">
       <form className="bg-white p-8 rounded shadow-md w-96" onSubmit={handleLogin}>
         <h2 className="text-2xl font-bold mb-4 text-center">Admin Login</h2>
         {error && <p className="text-red-500 mb-2">{error}</p>}
@@ -53,6 +62,7 @@ const Login = () => {
           Login
         </button>
       </form>
+    </div>
     </div>
   );
 };

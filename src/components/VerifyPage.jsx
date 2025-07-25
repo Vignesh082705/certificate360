@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getDatabase, ref, get } from 'firebase/database';
-import logo from '../../public/logo.jpg'; // ✅ Replace with your actual logo path
+import logo from '../../public/logo.jpg'; 
 
 const VerifyPage = () => {
   const { certId } = useParams();
