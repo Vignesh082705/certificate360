@@ -4,6 +4,8 @@ import QRCode from "qrcode"; // NEW (instead of 'qrcode.react')
 import { useEffect } from "react"; 
 import { db } from '../firebase';
 import { ref, set } from 'firebase/database';
+import { useNavigate } from "react-router-dom";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 
 const Certificate = () => {
@@ -13,6 +15,15 @@ const Certificate = () => {
   const certificateId = certificateIdRef.current;  
   const qrCanvasRef = useRef();
   const photoBoxRef = useRef(); // for upload box
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (!user) navigate("/");
+    });
+  }, []);
+
 
   const [form, setForm] = useState({
     name: "",
@@ -32,6 +43,31 @@ const Certificate = () => {
   
 
   const handleDownload = async () => {
+    // Validate date format and values
+const dateParts = form.date.split("-");
+
+// Support both dd-mm-yyyy and yyyy-mm-dd
+let day, month, year;
+if (dateParts[0].length === 4) {
+  // yyyy-mm-dd
+  [year, month, day] = dateParts;
+} else {
+  // dd-mm-yyyy
+  [day, month, year] = dateParts;
+}
+
+day = parseInt(day);
+month = parseInt(month);
+year = parseInt(year);
+
+if (
+  isNaN(day) || isNaN(month) || isNaN(year) ||
+  day < 1 || day > 31 ||
+  month < 1 || month > 12
+) {
+  alert("❌ Invalid date. Day should be ≤ 31 and Month ≤ 12.");
+  return;
+}
   
     const certData = {
       name: form.name,
@@ -66,6 +102,14 @@ const Certificate = () => {
         pagebreak: { mode: ["avoid-all"] },
       };
       html2pdf().set(opt).from(element).save();
+      setForm({
+        name: "",
+        course: "",
+        summary: "",
+        date: "",
+      });
+      setPhoto(null);
+      certificateIdRef.current = Date.now().toString(36);
     } catch (error) {
       console.error("❌ Failed to store certificate:", error);
     }
